@@ -34,6 +34,7 @@ public class PerfConf extends Utils {
   public final String DFS_PERF_MASTER_HOSTNAME;
   public final int DFS_PERF_MASTER_PORT;
   public final long UNREGISTER_TIMEOUT_MS;
+  public final String LIBALLUXIO2_HOME;
 
   private PerfConf() {
     if (System.getProperty("pasalab.dfs.perf.home") == null) {
@@ -57,5 +58,7 @@ public class PerfConf extends Utils {
     DFS_PERF_MASTER_HOSTNAME = getProperty("pasalab.dfs.perf.master.hostname", "localhost");
     DFS_PERF_MASTER_PORT = getIntProperty("pasalab.dfs.perf.master.port", 23333);
     UNREGISTER_TIMEOUT_MS = getLongProperty("pasalab.dfs.perf.unregister.timeout.ms", 10000);
+
+    LIBALLUXIO2_HOME = getProperty("pasalab.dfs.perf.liballuxio2.home", "/liballuxio2");
   }
 }

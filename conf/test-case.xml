@@ -15,6 +15,13 @@
     <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
   </type>
   <type>
+    <name>CSimpleWrite</name>
+    <taskClass>pasalab.dfs.perf.benchmark.simplewrite.CSimpleWriteTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.simplewrite.CSimpleWriteTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.simplewrite.CSimpleWriteThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
+  </type>
+  <type>
     <name>Metadata</name>
     <taskClass>pasalab.dfs.perf.benchmark.metadata.MetadataTask</taskClass>
     <taskContextClass>pasalab.dfs.perf.benchmark.metadata.MetadataTaskContext</taskContextClass>
