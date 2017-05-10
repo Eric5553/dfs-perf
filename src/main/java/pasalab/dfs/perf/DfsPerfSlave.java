@@ -41,7 +41,10 @@ public class DfsPerfSlave {
         Thread.sleep(1000);
       }
 
-      masterClient.slave_ready(taskId, nodeName, task.setup(taskContext));
+      boolean canRun = task.setup(taskContext);
+      masterClient.slave_ready(taskId, nodeName, canRun);
+      if (!canRun)
+        return;
 
       while (!masterClient.slave_canRun(taskId, nodeName)) {
         Thread.sleep(100);

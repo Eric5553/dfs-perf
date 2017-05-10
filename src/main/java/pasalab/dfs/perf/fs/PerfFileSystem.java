@@ -29,7 +29,7 @@ public abstract class PerfFileSystem {
     throw new IOException("Unknown file system scheme " + path);
   }
 
-  private static boolean isGlusterfs(final String path) {
+  public static boolean isGlusterfs(final String path) {
     for (final String prefix : DfsConf.get().GLUSTER_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
@@ -38,7 +38,7 @@ public abstract class PerfFileSystem {
     return false;
   }
 
-  private static boolean isHdfs(final String path) {
+  public static boolean isHdfs(final String path) {
     for (final String prefix : DfsConf.get().HDFS_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
@@ -47,7 +47,7 @@ public abstract class PerfFileSystem {
     return false;
   }
 
-  private static boolean isLocalFS(final String path) {
+  public static boolean isLocalFS(final String path) {
     for (final String prefix : DfsConf.get().LFS_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
@@ -56,7 +56,7 @@ public abstract class PerfFileSystem {
     return false;
   }
 
-  private static boolean isAlluxio(final String path) {
+  public static boolean isAlluxio(final String path) {
     for (final String prefix : DfsConf.get().ALLUXIO_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
@@ -65,7 +65,7 @@ public abstract class PerfFileSystem {
     return false;
   }
 
-  private static boolean isTfsHadoop(final String path) {
+  public static boolean isTfsHadoop(final String path) {
     for (final String prefix : DfsConf.get().ALLUXIO_HADOOP_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;

@@ -2,10 +2,13 @@ package pasalab.dfs.perf.benchmark.simplewrite;
 
 import pasalab.dfs.perf.basic.PerfThread;
 import pasalab.dfs.perf.basic.TaskConfiguration;
+import pasalab.dfs.perf.conf.PerfConf;
+import pasalab.dfs.perf.fs.PerfFileSystem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.InvalidParameterException;
 
 public class CSimpleWriteThread extends PerfThread {
 
@@ -16,6 +19,8 @@ public class CSimpleWriteThread extends PerfThread {
     private long mFileLength;
     private int mFilesNum;
     private long mBlockSize;
+    private String mHostname;
+    private int mPort;
 
     public void run() {
         // form the command
@@ -40,6 +45,18 @@ public class CSimpleWriteThread extends PerfThread {
 
     @Override
     public boolean setupThread(TaskConfiguration taskConf) {
+        String dfsAddress = PerfConf.get().DFS_ADDRESS;
+
+        if (!PerfFileSystem.isAlluxio(dfsAddress))
+        {
+            LOG.error("dfs is not alluxio, please modify the setting of DFS_PERF_DFS_ADDRESS.");
+            mSuccess = false;
+            return false;
+        }
+
+        // 10 = "alluxio://"
+        mHostname = dfsAddress.substring(10, dfsAddress.lastIndexOf(':'));
+        mPort = Integer.valueOf(dfsAddress.substring(dfsAddress.lastIndexOf(':') + 1));
         mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
         mFileLength = taskConf.getLongProperty("file.length.bytes");
         mFilesNum = taskConf.getIntProperty("files.per.thread");
@@ -64,6 +81,8 @@ public class CSimpleWriteThread extends PerfThread {
         sb.append(" " + mFileLength);
         sb.append(" " + mFilesNum);
         sb.append(" " + mBlockSize);
+        sb.append(" " + mHostname);
+        sb.append(" " + mPort);
 
         return sb.toString();
     }
