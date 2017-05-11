@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.simplewrite;
+package pasalab.dfs.perf.benchmark.simpleread;
 
 import pasalab.dfs.perf.basic.PerfThread;
 import pasalab.dfs.perf.benchmark.SimpleTaskContext;
@@ -6,7 +6,7 @@ import pasalab.dfs.perf.benchmark.SimpleTaskContext;
 import java.io.File;
 import java.io.IOException;
 
-public class CSimpleWriteTaskContext extends SimpleTaskContext {
+public class CSimpleReadTaskContext extends SimpleTaskContext {
     @Override
     public void setFromThread(PerfThread[] threads) {
     }

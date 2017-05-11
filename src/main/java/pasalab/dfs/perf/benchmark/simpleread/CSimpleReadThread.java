@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.simplewrite;
+package pasalab.dfs.perf.benchmark.simpleread;
 
 import pasalab.dfs.perf.basic.PerfThread;
 import pasalab.dfs.perf.basic.TaskConfiguration;
@@ -9,17 +9,64 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class CSimpleWriteThread extends PerfThread {
+public class CSimpleReadThread extends PerfThread {
 
     private boolean mSuccess;
 
-    private String mWriteDir;
-    private int mBufferSize;
-    private long mFileLength;
-    private int mFilesNum;
-    private long mBlockSize;
     private String mHostname;
     private int mPort;
+    private int mBufferSize;
+    private int mFilesNum;
+    private String mReadDir;
+    private boolean mIsRandom;
+
+    public boolean getSuccess() {
+        return mSuccess;
+    }
+
+    public boolean setupThread(TaskConfiguration taskConf) {
+        String dfsAddress = PerfConf.get().DFS_ADDRESS;
+
+        if (!PerfFileSystem.isAlluxio(dfsAddress))
+        {
+            LOG.error("dfs is not alluxio, please modify the setting of DFS_PERF_DFS_ADDRESS.");
+            mSuccess = false;
+            return false;
+        }
+
+        // 10 = "alluxio://"
+        mHostname = dfsAddress.substring(10, dfsAddress.lastIndexOf(':'));
+        mPort = Integer.valueOf(dfsAddress.substring(dfsAddress.lastIndexOf(':') + 1));
+        mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
+        mFilesNum = taskConf.getIntProperty("files.per.thread");
+        mReadDir = taskConf.getProperty("read.dir");
+        mIsRandom = "RANDOM".equals(taskConf.getProperty("read.mode"));
+
+        return true;
+    }
+
+    public boolean cleanupThread(TaskConfiguration taskConf) {
+        return true;
+    }
+
+    private String getShellCommand() {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/performance/" + mTestCase + ".sh");
+        sb.append(" " + mReadDir);
+        sb.append(" " + mBufferSize);
+        sb.append(" " + mFilesNum);
+        sb.append(" " + (mIsRandom ? "1":"0"));
+        sb.append(" " + mHostname);
+        sb.append(" " + mPort);
+        sb.append(" " + mId);
+        sb.append(" " + PerfConf.get().DFS_PERF_HOME);
+        sb.append(" " + mNodeName);
+        sb.append(" " + PerfConf.get().LIBALLUXIO2_HOME);
+
+        LOG.info(sb.toString());
+        return sb.toString();
+    }
 
     public void run() {
         // form the command
@@ -41,55 +88,6 @@ public class CSimpleWriteThread extends PerfThread {
             LOG.error(e.getStackTrace());
             mSuccess = false;
         }
-    }
-
-    @Override
-    public boolean setupThread(TaskConfiguration taskConf) {
-        String dfsAddress = PerfConf.get().DFS_ADDRESS;
-
-        if (!PerfFileSystem.isAlluxio(dfsAddress))
-        {
-            LOG.error("dfs is not alluxio, please modify the setting of DFS_PERF_DFS_ADDRESS.");
-            mSuccess = false;
-            return false;
-        }
-
-        // 10 = "alluxio://"
-        mHostname = dfsAddress.substring(10, dfsAddress.lastIndexOf(':'));
-        mPort = Integer.valueOf(dfsAddress.substring(dfsAddress.lastIndexOf(':') + 1));
-        mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
-        mFileLength = taskConf.getLongProperty("file.length.bytes");
-        mFilesNum = taskConf.getIntProperty("files.per.thread");
-        mBlockSize = taskConf.getLongProperty("block.size.bytes");
-        mWriteDir = taskConf.getProperty("write.dir");
-
-        mSuccess = false;
-        return true;
-    }
-
-    @Override
-    public boolean cleanupThread(TaskConfiguration taskConf) {
-        return true;
-    }
-
-    private String getShellCommand() {
-        StringBuffer sb = new StringBuffer();
-
-        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/performance/" + mTestCase + ".sh");
-        sb.append(" " + mWriteDir);
-        sb.append(" " + mBufferSize);
-        sb.append(" " + mFileLength);
-        sb.append(" " + mFilesNum);
-        sb.append(" " + mBlockSize);
-        sb.append(" " + mHostname);
-        sb.append(" " + mPort);
-        sb.append(" " + mId);
-        sb.append(" " + PerfConf.get().DFS_PERF_HOME);
-        sb.append(" " + mNodeName);
-        sb.append(" " + PerfConf.get().LIBALLUXIO2_HOME);
-
-        LOG.info(sb.toString());
-        return sb.toString();
     }
 
     private void communicateWithProcess(final Process p) {
@@ -122,9 +120,5 @@ public class CSimpleWriteThread extends PerfThread {
                 }
             }
         }.start();
-    }
-
-    public boolean getSuccess() {
-        return mSuccess;
     }
 }
