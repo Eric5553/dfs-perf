@@ -106,19 +106,19 @@ public class SimpleTotalReport extends PerfTotalReport {
     BufferedWriter fout = new BufferedWriter(new FileWriter(file));
     fout.write(mTestCase + " Test - ID : " + mId + "\n");
     if (mFailedTasks == 0) {
-      fout.write("Finished Successfully\n");
-    } else {
-      fout.write("Failed: " + mFailedTasks + " slaves failed ( " + mFailedSlaves + ")\n");
-    }
+    fout.write("Finished Successfully\n");
+  } else {
+    fout.write("Failed: " + mFailedTasks + " slaves failed ( " + mFailedSlaves + ")\n");
+  }
     fout.write("********** Task Configurations **********\n");
     fout.write(generateTaskConf());
     fout.write("********** Statistics **********\n");
     fout.write(generateStatistics());
     fout.write("********** Slave Details **********\n");
     for (int i = 0; i < mSlavesNum; i ++) {
-      fout.write(generateSlaveDetails(i));
-    }
-    fout.close();
+    fout.write(generateSlaveDetails(i));
   }
+    fout.close();
+}
 
 }

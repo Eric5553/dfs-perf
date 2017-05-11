@@ -12,7 +12,7 @@
   </property>
   <property>
     <name>file.length.bytes</name>
-    <value>134217728</value>
+    <value>1342177280</value>
     <description>the file size of write test, in bytes</description>
   </property>
   <property>
@@ -22,7 +22,7 @@
   </property>
   <property>
     <name>write.type</name>
-    <value>ASYNC_THROUGH</value>
+    <value>CACHE_THROUGH</value>
     <description>the WriteType of the write operation, now only used for Alluxio</description>
   </property>
 </configuration>

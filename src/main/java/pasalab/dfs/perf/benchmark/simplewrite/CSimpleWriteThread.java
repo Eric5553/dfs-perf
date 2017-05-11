@@ -32,8 +32,9 @@ public class CSimpleWriteThread extends PerfThread {
             communicateWithProcess(p);
 
             // get job return status
-            int rc = p.waitFor();
-            mSuccess = rc == 0 ? true : false;
+            p.waitFor();
+            LOG.info("shell return value is "+p.exitValue());
+            mSuccess = p.exitValue() == 0 ? true : false;
         } catch (IOException e) {
             LOG.error(e.getStackTrace());
             mSuccess = false;
@@ -75,7 +76,7 @@ public class CSimpleWriteThread extends PerfThread {
     private String getShellCommand() {
         StringBuffer sb = new StringBuffer();
 
-        sb.append("/liballuxio2/test/performance/" + mTestCase + ".sh");
+        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/performance/" + mTestCase + ".sh");
         sb.append(" " + mWriteDir);
         sb.append(" " + mBufferSize);
         sb.append(" " + mFileLength);
@@ -83,6 +84,10 @@ public class CSimpleWriteThread extends PerfThread {
         sb.append(" " + mBlockSize);
         sb.append(" " + mHostname);
         sb.append(" " + mPort);
+        sb.append(" " + mId);
+        sb.append(" " + PerfConf.get().DFS_PERF_HOME);
+        sb.append(" " + mNodeName);
+        sb.append(" " + PerfConf.get().LIBALLUXIO2_HOME);
 
         return sb.toString();
     }

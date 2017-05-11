@@ -12,7 +12,7 @@
   </property>
   <property>
     <name>file.length.bytes</name>
-    <value>134217728</value>
+    <value>1342177280</value>
     <description>the file size of write test, in bytes</description>
   </property>
   <property>
