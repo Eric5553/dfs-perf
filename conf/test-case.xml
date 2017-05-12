@@ -36,6 +36,13 @@
     <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
   </type>
   <type>
+    <name>CMetadata</name>
+    <taskClass>pasalab.dfs.perf.benchmark.metadata.CMetadataTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.metadata.CMetadataTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.metadata.CMetadataThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
+  </type>
+  <type>
     <name>SkipRead</name>
     <taskClass>pasalab.dfs.perf.benchmark.skipread.SkipReadTask</taskClass>
     <taskContextClass>pasalab.dfs.perf.benchmark.skipread.SkipReadTaskContext</taskContextClass>
