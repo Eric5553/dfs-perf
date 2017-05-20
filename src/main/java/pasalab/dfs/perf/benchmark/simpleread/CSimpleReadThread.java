@@ -59,10 +59,11 @@ public class CSimpleReadThread extends PerfThread {
         sb.append(" " + (mIsRandom ? "1":"0"));
         sb.append(" " + mHostname);
         sb.append(" " + mPort);
-        sb.append(" " + mId);
+        sb.append(" " + mTaskId);
         sb.append(" " + PerfConf.get().DFS_PERF_HOME);
         sb.append(" " + mNodeName);
         sb.append(" " + PerfConf.get().LIBALLUXIO2_HOME);
+        sb.append(" " + mId);
 
         LOG.info(sb.toString());
         return sb.toString();
