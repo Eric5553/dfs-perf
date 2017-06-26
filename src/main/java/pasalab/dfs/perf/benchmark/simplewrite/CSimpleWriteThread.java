@@ -75,7 +75,7 @@ public class CSimpleWriteThread extends PerfThread {
     private String getShellCommand() {
         StringBuffer sb = new StringBuffer();
 
-        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/performance/" + mTestCase + ".sh");
+        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/dfs-perf-performance/" + mTestCase + ".sh");
         sb.append(" " + mWriteDir);
         sb.append(" " + mBufferSize);
         sb.append(" " + mFileLength);

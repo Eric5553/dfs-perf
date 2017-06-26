@@ -24,7 +24,6 @@ public abstract class PerfFileSystem {
     } else if (isAlluxio(path)) {
       return PerfFileSystemAlluxioFS.getClient(path, taskConf);
     } else if (isTfsHadoop(path)) {
-      return PerfFileSystemAlluxioHadoop.getClient(path, taskConf);
     }
     throw new IOException("Unknown file system scheme " + path);
   }

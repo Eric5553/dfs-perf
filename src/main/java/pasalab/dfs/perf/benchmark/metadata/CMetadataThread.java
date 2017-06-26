@@ -63,7 +63,7 @@ public class CMetadataThread extends PerfThread {
     private String getShellCommand() {
         StringBuffer sb = new StringBuffer();
 
-        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/performance/" + mTestCase + ".sh");
+        sb.append(PerfConf.get().LIBALLUXIO2_HOME +"/test/dfs-perf-performance/" + mTestCase + ".sh");
         sb.append(" " + mWorkDir);
         sb.append(" " + mClientsNum);
         sb.append(" " + mOpTimeMs);
