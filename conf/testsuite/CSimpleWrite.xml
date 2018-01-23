@@ -20,10 +20,5 @@
     <value>4194304</value>
     <description>the size of the buffer write once</description>
   </property>
-  <property>
-    <name>write.type</name>
-    <value>CACHE_THROUGH</value>
-    <description>the WriteType of the write operation, now only used for Alluxio</description>
-  </property>
 </configuration>
 

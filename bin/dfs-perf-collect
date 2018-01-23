@@ -13,6 +13,7 @@ fi
 bin=`cd "$( dirname "$0" )"; pwd`
 
 DEFAULT_PERF_LIBEXEC_DIR="$bin"/../libexec
+DEFAULT_PERF_LOG_DIR="$bin"/../logs
 DFS_PERF_LIBEXEC_DIR=${DFS_PERF_LIBEXEC_DIR:-$DEFAULT_PERF_LIBEXEC_DIR}
 . $DFS_PERF_LIBEXEC_DIR/dfs-perf-config.sh
 
@@ -28,6 +29,8 @@ taskid=0
 for slave in `sort "$NODELIST"|sed  "s/#.*$//;/^$/d"`; do
   echo -n "Collect from $slave... "
   scp $slave:$DFS_PERF_OUT_DIR/context$1-$taskid@$slave $DFS_PERF_OUT_REPORTS_DIR/context$1-$taskid@$slave
+  sleep 0.02
+  scp $slave:$DEFAULT_PERF_LOG_DIR/slave.log $DEFAULT_PERF_LOG_DIR/slave$taskid.log.$1
   sleep 0.02
   taskid=`expr $taskid + 1`
 done
